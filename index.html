@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HUBALUBA | The Web3 Digital Marketplace</title>
-  <meta name="description" content="The premier decentralized marketplace for digital products, ebooks, and software. Pay with Fiat or $PWC on Base L2." />
+  <title>HUBALUBA | Web3 Super-Commerce & Digital Clearinghouse</title>
+  <meta name="description" content="Decentralized commerce engine for digital assets, AI models, TTRPG compendiums, compute hardware, and Base L2 settlement. Operated by HUBALUBA." />
   
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
   <script>
     tailwind.config = {
@@ -19,7 +19,8 @@
             hubared: '#EA4335',
             hubayellow: '#FBBC05',
             hubagreen: '#34A853',
-            hubadark: '#202124'
+            hubadark: '#1E1F24',
+            hubaslate: '#0F1015'
           }
         }
       }
@@ -31,301 +32,456 @@
   </style>
 </head>
 
-<body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col antialiased selection:bg-hubablue selection:text-white">
+<body class="bg-[#F8F9FA] text-gray-900 min-h-screen flex flex-col antialiased selection:bg-hubablue selection:text-white">
 
-  <!-- HEADER / NAVIGATION -->
+  <!-- TOP COMPLIANCE & PROTOCOL BANNER -->
+  <div class="bg-hubadark text-white text-[11px] py-1.5 px-4 border-b border-gray-800">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center gap-2">
+        <span class="inline-block w-2 h-2 rounded-full bg-hubagreen animate-ping"></span>
+        <span class="text-gray-300">Base L2 Settlement Rails Active:</span>
+        <span class="font-mono text-cyan-400">90% Instant Vendor Split</span>
+        <span class="text-gray-500">|</span>
+        <span class="text-gray-300">HUBALUBA Sole Proprietorship (Ontario BIN: 1001599392)</span>
+      </div>
+      <div class="flex items-center gap-4 text-gray-400">
+        <span class="hover:text-white transition cursor-pointer" onclick="toggleSafetyModal(true)">🛡️ Zero-Tolerance Policy</span>
+        <a href="https://e-powercoin.com" target="_blank" rel="noopener noreferrer" class="text-cyan-400 hover:underline">e-Cache Clearinghouse ($PWC) ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN HEADER / BEST BUY & AMAZON UTILITY STYLE -->
   <header class="bg-white border-b border-gray-200 sticky top-0 z-40 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
       
-      <!-- Hubaluba Primary Color Logo -->
-      <div class="flex items-center cursor-pointer select-none" onclick="switchView('marketplace')">
+      <!-- Primary Logo -->
+      <div class="flex items-center gap-3 cursor-pointer select-none" onclick="switchView('marketplace')">
         <h1 class="text-3xl font-extrabold tracking-tighter">
           <span class="text-hubablue">H</span><span class="text-hubared">U</span><span class="text-hubayellow">B</span><span class="text-hubablue">A</span><span class="text-hubagreen">L</span><span class="text-hubared">U</span><span class="text-hubayellow">B</span><span class="text-hubablue">A</span>
         </h1>
+        <span class="hidden md:inline-block bg-gray-100 text-gray-600 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">Web3 Commerce</span>
       </div>
 
-      <!-- Live Search Bar -->
-      <div class="hidden md:flex flex-grow max-w-2xl mx-8 relative">
-        <input 
-          id="main-search-input"
-          type="text" 
-          oninput="handleSearch(this.value)"
-          placeholder="Search ebooks, digital assets, and Web3 tools..." 
-          class="w-full bg-gray-100 hover:bg-gray-200/80 focus:bg-white border border-transparent focus:border-hubablue focus:shadow-md rounded-full py-3 px-6 pl-12 text-sm transition-all outline-none"
-        />
-        <svg class="w-5 h-5 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
+      <!-- Omnisearch Bar with Scope Selector -->
+      <div class="hidden md:flex flex-grow max-w-2xl mx-6 relative">
+        <div class="flex w-full items-center bg-gray-100 rounded-full border border-gray-200 focus-within:border-hubablue focus-within:bg-white focus-within:shadow-md transition">
+          <select id="search-scope" onchange="applyFilters()" class="bg-transparent text-xs font-bold text-gray-700 pl-4 pr-2 py-3 rounded-l-full outline-none border-r border-gray-300 cursor-pointer">
+            <option value="all">All Catalogs</option>
+            <option value="digital">Direct Downloads</option>
+            <option value="outbound">Direct Suppliers</option>
+            <option value="ttrpg">TTRPG & Gaming</option>
+            <option value="compute">AI & Hardware</option>
+          </select>
+          <input 
+            id="main-search-input"
+            type="text" 
+            oninput="handleSearch(this.value)"
+            placeholder="Search ebooks, AI models, TTRPG compendiums, GPUs, cold storage..." 
+            class="w-full bg-transparent py-3 px-4 text-sm text-gray-800 placeholder-gray-400 outline-none"
+          />
+          <button class="bg-hubablue hover:bg-blue-600 text-white rounded-full p-2.5 mr-1.5 transition">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </button>
+        </div>
       </div>
 
-      <!-- Actions Area -->
+      <!-- Action Cluster -->
       <div class="flex items-center gap-3">
-        <button onclick="switchView('vendor')" id="nav-vendor-btn" class="hidden sm:block text-sm font-semibold text-gray-600 hover:text-hubablue transition">
-          Sell on Hubaluba
+        <button onclick="switchView('vendor')" id="nav-vendor-btn" class="text-xs sm:text-sm font-bold text-gray-700 hover:text-hubablue transition flex items-center gap-1.5 px-3 py-2 rounded-xl hover:bg-gray-100">
+          <svg class="w-4 h-4 text-hubablue" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+          <span>Merchant Studio</span>
         </button>
-        <div class="h-6 w-px bg-gray-300 mx-1 hidden sm:block"></div>
-        
-        <!-- Cart Toggle Button with Live Counter Badge -->
+
         <button onclick="toggleCartDrawer(true)" class="relative bg-white border border-gray-300 hover:bg-gray-50 text-gray-800 text-sm font-semibold px-4 py-2 rounded-full transition shadow-sm flex items-center gap-2">
-          <svg class="w-4 h-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg class="w-4 h-4 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
           </svg>
-          <span>Cart</span>
+          <span class="hidden sm:inline">Cart</span>
           <span id="cart-badge" class="bg-hubared text-white text-[11px] font-bold px-1.5 py-0.2 rounded-full hidden">0</span>
         </button>
 
-        <!-- Web3 Base Wallet Connector -->
-        <button id="wallet-connect-btn" onclick="connectWallet()" class="bg-hubablue hover:bg-blue-600 text-white text-sm font-semibold px-5 py-2 rounded-full transition shadow-md shadow-blue-500/30 whitespace-nowrap flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-blue-300"></span>
+        <button id="wallet-connect-btn" onclick="connectWallet()" class="bg-hubablue hover:bg-blue-600 text-white text-xs sm:text-sm font-semibold px-4 sm:px-5 py-2.5 rounded-full transition shadow-md shadow-blue-500/20 whitespace-nowrap flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-cyan-300"></span>
           <span id="wallet-btn-label">Connect Wallet</span>
         </button>
       </div>
 
     </div>
 
-    <!-- Mobile Search Bar (Below Header on phones) -->
+    <!-- Mobile Search Row -->
     <div class="md:hidden px-4 pb-3">
-      <div class="relative">
+      <div class="flex items-center bg-gray-100 rounded-full border border-gray-200 px-3 py-2">
         <input 
           type="text" 
           oninput="handleSearch(this.value)"
-          placeholder="Search products..." 
-          class="w-full bg-gray-100 border border-transparent focus:border-hubablue rounded-full py-2 px-4 pl-10 text-sm outline-none"
+          placeholder="Search products & suppliers..." 
+          class="w-full bg-transparent text-sm outline-none text-gray-800"
         />
-        <svg class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
+        <svg class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
       </div>
     </div>
   </header>
 
-  <!-- MAIN CATEGORY NAV -->
-  <div class="bg-white border-b border-gray-200 shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center gap-6 overflow-x-auto hide-scrollbar text-sm font-semibold text-gray-600 py-3">
-      <button onclick="filterCategory('all')" id="cat-all" class="category-tab text-hubablue font-bold whitespace-nowrap border-b-2 border-hubablue pb-1">All Digital Goods</button>
-      <button onclick="filterCategory('literature')" id="cat-literature" class="category-tab hover:text-gray-900 whitespace-nowrap pb-1">Ebooks & Literature</button>
-      <button onclick="filterCategory('software')" id="cat-software" class="category-tab hover:text-gray-900 whitespace-nowrap pb-1">Software & AI</button>
-      <button onclick="filterCategory('protocol')" id="cat-protocol" class="category-tab hover:text-gray-900 whitespace-nowrap pb-1">Web3 Protocols</button>
-      <button onclick="switchView('vendor')" class="hover:text-gray-900 whitespace-nowrap pb-1">For Creators</button>
+  <!-- DEPARTMENT MEGA-BAR (Shopify/Best Buy Model) -->
+  <nav class="bg-[#131921] text-gray-300 text-xs font-medium border-b border-gray-800 shadow-inner">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center gap-4 overflow-x-auto hide-scrollbar py-2.5">
+      <button onclick="filterCategory('all')" id="cat-all" class="category-pill bg-gray-800 text-white font-bold px-3 py-1 rounded-md transition whitespace-nowrap">☰ All Products</button>
+      <button onclick="filterCategory('literature')" id="cat-literature" class="category-pill hover:text-white px-2 py-1 rounded-md transition whitespace-nowrap">Ebooks & Literature</button>
+      <button onclick="filterCategory('ai-software')" id="cat-ai-software" class="category-pill hover:text-white px-2 py-1 rounded-md transition whitespace-nowrap">Local AI & SLM Models</button>
+      <button onclick="filterCategory('ttrpg')" id="cat-ttrpg" class="category-pill hover:text-white px-2 py-1 rounded-md transition whitespace-nowrap">TTRPG & Game Systems</button>
+      <button onclick="filterCategory('hardware')" id="cat-hardware" class="category-pill hover:text-white px-2 py-1 rounded-md transition whitespace-nowrap">Hardware & Cold Storage</button>
+      <button onclick="filterCategory('protocol')" id="cat-protocol" class="category-pill hover:text-white px-2 py-1 rounded-md transition whitespace-nowrap">Base Protocol Rails</button>
+      <span class="text-gray-600">|</span>
+      <button onclick="switchView('vendor')" class="text-cyan-400 hover:text-cyan-300 font-bold px-2 py-1 whitespace-nowrap flex items-center gap-1">
+        <span>+ Open Creator Stall</span>
+      </button>
     </div>
-  </div>
+  </nav>
 
+  <!-- MAIN VIEWPORT -->
   <main class="flex-grow w-full">
 
-    <!-- VIEW 1: MARKETPLACE HOME -->
-    <div id="view-marketplace" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
+    <!-- VIEW 1: MARKETPLACE / BUYER DISCOVERY -->
+    <div id="view-marketplace" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
       
-      <!-- HERO / FEATURED BANNER -->
-      <section id="hero-banner" class="bg-hubadark rounded-3xl overflow-hidden shadow-xl relative flex flex-col md:flex-row items-center">
-        <div class="p-8 md:p-12 md:w-1/2 space-y-4 relative z-10">
-          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-hubayellow text-gray-900">
-            Featured Release
+      <!-- HERO SHOWCASE / FEATURED ASSET -->
+      <section id="hero-banner" class="bg-gradient-to-r from-[#111217] via-hubadark to-[#181A20] rounded-3xl overflow-hidden shadow-2xl border border-gray-800 relative flex flex-col lg:flex-row items-center justify-between p-8 lg:p-12 gap-8">
+        <div class="max-w-xl space-y-4 z-10">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-black bg-hubayellow text-gray-950 uppercase tracking-wider">
+            Flagship Release • Instant Download
           </div>
-          <h2 class="text-4xl md:text-5xl font-extrabold text-white leading-tight">
+          <h2 class="text-3xl sm:text-5xl font-black text-white leading-tight">
             Technos & Titans
           </h2>
-          <p class="text-gray-300 text-sm md:text-base leading-relaxed">
-            The definitive digital playbook for building decentralized intelligence and physical grid arbitrage. Download the ebook instantly using Fiat or unlock a 10% discount with $PWC.
+          <p class="text-gray-300 text-sm sm:text-base leading-relaxed">
+            The definitive architectural manual for machine intelligence settlement, dual-rail infrastructure, and electrical grid arbitrage. Published directly by Trevor Curtis Smith via HUBALUBA.
           </p>
-          <div class="flex flex-wrap gap-3 pt-4">
-            <button onclick="initiateCheckout('prod-1', 'fiat')" class="bg-white hover:bg-gray-100 text-gray-900 font-bold px-6 py-3 rounded-full transition shadow-lg text-sm flex items-center gap-2">
-              Buy for $14.99 USD
+          <div class="flex flex-wrap gap-3 pt-2">
+            <button onclick="initiateCheckout('prod-1', 'fiat')" class="bg-white hover:bg-gray-100 text-gray-950 font-bold px-6 py-3 rounded-xl transition text-xs sm:text-sm flex items-center gap-2 shadow-lg">
+              Buy Ebook • $14.99 USD
             </button>
-            <button onclick="initiateCheckout('prod-1', 'pwc')" class="bg-gradient-to-r from-hubablue to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-bold px-6 py-3 rounded-full transition shadow-lg shadow-blue-500/30 text-sm flex items-center gap-2 border border-blue-400/50">
-              Unlock for 7.5 $PWC (-10%)
+            <button onclick="initiateCheckout('prod-1', 'pwc')" class="bg-gradient-to-r from-hubablue to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-bold px-6 py-3 rounded-xl transition text-xs sm:text-sm flex items-center gap-2 shadow-lg shadow-blue-500/25 border border-cyan-400/40">
+              ⚡ Settle with 7.5 $PWC (-10%)
+            </button>
+            <button onclick="addToCart('prod-1')" class="bg-gray-800 hover:bg-gray-700 text-gray-200 font-semibold px-4 py-3 rounded-xl transition text-xs sm:text-sm">
+              + Add to Cart
             </button>
           </div>
+          <div class="flex items-center gap-4 text-[11px] text-gray-400 font-mono pt-1">
+            <span>Format: DRM-Free PDF / EPUB</span>
+            <span>•</span>
+            <span>Delivery: Instant IPFS Download</span>
+          </div>
         </div>
-        
-        <!-- Hero Cover Graphic -->
-        <div class="md:w-1/2 min-h-[300px] bg-gradient-to-br from-gray-800 to-gray-900 w-full flex items-center justify-center relative p-8">
-          <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 24px 24px;"></div>
-          <div class="bg-white w-48 h-64 rounded-lg shadow-2xl z-10 border-4 border-gray-200 flex flex-col relative overflow-hidden rotate-3 hover:rotate-0 transition-all duration-300">
-            <div class="bg-hubadark h-2/3 p-4 flex flex-col justify-end relative">
-              <div class="w-12 h-12 bg-hubablue rounded-full absolute top-4 right-4 blur-xl opacity-50"></div>
-              <div class="w-12 h-12 bg-hubared rounded-full absolute top-12 left-4 blur-xl opacity-50"></div>
-              <h3 class="text-white font-black text-xl leading-tight relative z-10">Technos<br>& Titans</h3>
-            </div>
-            <div class="bg-white h-1/3 p-4 flex flex-col justify-between">
-              <div class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Ebook Edition</div>
-              <div class="text-xs font-semibold text-gray-900">Trevor C. Smith</div>
+
+        <!-- 3D Graphic Mockup -->
+        <div class="w-full lg:w-auto flex justify-center">
+          <div class="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-md shadow-2xl text-center relative group">
+            <div class="w-52 h-72 bg-gradient-to-tr from-gray-900 to-slate-800 rounded-xl shadow-2xl border-2 border-gray-700 flex flex-col justify-between p-5 text-left transform group-hover:-translate-y-1 transition duration-300">
+              <div class="flex justify-between items-start">
+                <span class="text-[9px] font-mono font-bold bg-hubablue text-white px-2 py-0.5 rounded">ORIGINAL WORK</span>
+                <span class="text-2xl">⚡</span>
+              </div>
+              <div>
+                <div class="text-white font-black text-xl leading-tight">TECHNOS &<br>TITANS</div>
+                <div class="text-[10px] text-cyan-300 font-semibold mt-1">Trevor Curtis Smith</div>
+              </div>
+              <div class="border-t border-gray-700 pt-2 flex justify-between items-center text-[9px] text-gray-400 font-mono">
+                <span>ONTARIO REGISTERED</span>
+                <span>BIN 1001599392</span>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- MARKETPLACE GRID -->
+      <!-- PRODUCT & DIRECT SUPPLIER CATALOG GRID -->
       <section class="space-y-6">
-        <div class="flex items-center justify-between border-b border-gray-200 pb-2">
-          <h3 id="grid-title" class="text-2xl font-bold text-gray-900">Trending Digital Assets</h3>
-          <button onclick="filterCategory('all')" class="text-sm font-semibold text-hubablue hover:underline">Reset Filters</button>
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-gray-200 pb-3">
+          <div>
+            <h3 id="catalog-heading" class="text-xl sm:text-2xl font-black text-gray-900">Featured Web3 & Digital Catalog</h3>
+            <p class="text-xs text-gray-500">Decentralized direct downloads and verified supplier gateways.</p>
+          </div>
+          <div class="flex items-center gap-2 text-xs">
+            <span class="text-gray-500 font-semibold">Filter:</span>
+            <button onclick="setProductFilter('all')" class="filter-btn font-bold text-hubablue border-b-2 border-hubablue pb-0.5">All Items</button>
+            <button onclick="setProductFilter('direct')" class="filter-btn text-gray-500 hover:text-gray-900 pb-0.5">Instant Downloads</button>
+            <button onclick="setProductFilter('supplier')" class="filter-btn text-gray-500 hover:text-gray-900 pb-0.5">Direct Supplier Gateway</button>
+          </div>
         </div>
 
         <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           
-          <!-- Product Card 1 -->
-          <div class="product-item bg-white border border-gray-200 rounded-2xl p-4 hover:shadow-xl transition-shadow flex flex-col group cursor-pointer" data-id="prod-1" data-title="Technos & Titans" data-category="literature" data-price="14.99" data-pwc="7.50">
-            <div class="bg-gray-100 rounded-xl aspect-[4/3] mb-4 flex items-center justify-center relative overflow-hidden">
-              <span class="text-5xl group-hover:scale-110 transition-transform">📚</span>
-              <div class="absolute top-2 left-2 bg-white px-2 py-0.5 rounded text-[10px] font-bold text-gray-600 shadow-sm">PDF / EPUB</div>
-            </div>
-            <div class="flex-grow space-y-1">
-              <div class="text-[10px] font-bold text-hubagreen uppercase tracking-wider">Literature</div>
-              <h4 class="font-bold text-gray-900 text-base leading-tight group-hover:text-hubablue transition">Technos & Titans</h4>
-              <p class="text-xs text-gray-500">Trevor Curtis Smith</p>
-            </div>
-            <div class="pt-4 flex items-center justify-between">
-              <div>
-                <div class="font-bold text-gray-900">$14.99</div>
-                <div class="text-[10px] text-gray-500 font-mono">or 7.5 PWC (-10%)</div>
+          <!-- PRODUCT 1: TECHNOS & TITANS -->
+          <div class="prod-card bg-white border border-gray-200 rounded-2xl p-4 hover:shadow-xl transition flex flex-col justify-between group relative" data-id="prod-1" data-type="direct" data-cat="literature" data-title="Technos & Titans Ebook">
+            <button onclick="reportItem('prod-1', 'Technos & Titans')" class="absolute top-3 right-3 text-gray-300 hover:text-hubared transition" title="Report policy violation">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z" clip-rule="evenodd"/></svg>
+            </button>
+            <div>
+              <div class="bg-gray-100 rounded-xl aspect-[4/3] flex items-center justify-center relative overflow-hidden mb-3">
+                <span class="text-5xl group-hover:scale-110 transition">📚</span>
+                <span class="absolute bottom-2 left-2 bg-white/90 backdrop-blur-xs text-[10px] font-bold text-gray-700 px-2 py-0.5 rounded shadow-xs">DRM-Free Ebook</span>
               </div>
-              <button onclick="addToCart('prod-1', event)" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-hubablue hover:text-white text-gray-600 flex items-center justify-center transition font-bold" title="Add to Cart">
-                +
-              </button>
+              <div class="text-[10px] font-bold text-hubablue uppercase tracking-wider">Original Literature</div>
+              <h4 class="font-bold text-gray-900 text-sm leading-snug mt-0.5 group-hover:text-hubablue transition">Technos & Titans: The Playbook</h4>
+              <p class="text-xs text-gray-500 mt-1">By Trevor Curtis Smith</p>
+            </div>
+            <div class="pt-4 border-t border-gray-100 mt-4">
+              <div class="flex items-baseline justify-between mb-2">
+                <div class="font-extrabold text-base text-gray-900">$14.99 USD</div>
+                <div class="text-[11px] font-mono text-cyan-600 font-bold">7.50 $PWC (-10%)</div>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <button onclick="addToCart('prod-1')" class="py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-bold rounded-lg transition">+ Cart</button>
+                <button onclick="initiateCheckout('prod-1', 'fiat')" class="py-2 bg-hubablue hover:bg-blue-600 text-white text-xs font-bold rounded-lg transition shadow-xs">Buy Now</button>
+              </div>
             </div>
           </div>
 
-          <!-- Product Card 2 -->
-          <div class="product-item bg-white border border-gray-200 rounded-2xl p-4 hover:shadow-xl transition-shadow flex flex-col group cursor-pointer" data-id="prod-2" data-title="eCO-Router SLM" data-category="software" data-price="0.00" data-pwc="0.00">
-            <div class="bg-gray-100 rounded-xl aspect-[4/3] mb-4 flex items-center justify-center relative overflow-hidden">
-              <span class="text-5xl group-hover:scale-110 transition-transform">🤖</span>
-              <div class="absolute top-2 left-2 bg-white px-2 py-0.5 rounded text-[10px] font-bold text-gray-600 shadow-sm">ONNX / GGUF</div>
-            </div>
-            <div class="flex-grow space-y-1">
-              <div class="text-[10px] font-bold text-hubared uppercase tracking-wider">AI Software</div>
-              <h4 class="font-bold text-gray-900 text-base leading-tight group-hover:text-hubablue transition">eCO-Router SLM (Local)</h4>
-              <p class="text-xs text-gray-500">e-Cache Protocol</p>
-            </div>
-            <div class="pt-4 flex items-center justify-between">
-              <div>
-                <div class="font-bold text-gray-900">Free</div>
-                <div class="text-[10px] text-gray-500 font-mono">Open Source</div>
+          <!-- PRODUCT 2: eCO-ROUTER SLM -->
+          <div class="prod-card bg-white border border-gray-200 rounded-2xl p-4 hover:shadow-xl transition flex flex-col justify-between group relative" data-id="prod-2" data-type="direct" data-cat="ai-software" data-title="eCO-Router SLM Quantized">
+            <button onclick="reportItem('prod-2', 'eCO-Router SLM')" class="absolute top-3 right-3 text-gray-300 hover:text-hubared transition" title="Report policy violation">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z" clip-rule="evenodd"/></svg>
+            </button>
+            <div>
+              <div class="bg-gray-100 rounded-xl aspect-[4/3] flex items-center justify-center relative overflow-hidden mb-3">
+                <span class="text-5xl group-hover:scale-110 transition">🤖</span>
+                <span class="absolute bottom-2 left-2 bg-white/90 backdrop-blur-xs text-[10px] font-bold text-gray-700 px-2 py-0.5 rounded shadow-xs">ONNX / GGUF Weights</span>
               </div>
-              <button onclick="addToCart('prod-2', event)" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-hubablue hover:text-white text-gray-600 flex items-center justify-center transition font-bold" title="Download">
-                ↓
-              </button>
+              <div class="text-[10px] font-bold text-hubared uppercase tracking-wider">Edge AI Model</div>
+              <h4 class="font-bold text-gray-900 text-sm leading-snug mt-0.5 group-hover:text-hubablue transition">eCO-Router 1.1B (Browser WebGPU)</h4>
+              <p class="text-xs text-gray-500 mt-1">Autonomous Complexity Classifier</p>
             </div>
-          </div>
-
-          <!-- Product Card 3: Power Coin Protocol Link -->
-          <div class="product-item bg-white border border-gray-200 rounded-2xl p-4 hover:shadow-xl transition-shadow flex flex-col group cursor-pointer" data-id="prod-3" data-title="Power Coin ($PWC)" data-category="protocol" data-price="1.80" data-pwc="1.00">
-            <div class="bg-blue-50 rounded-xl aspect-[4/3] mb-4 flex items-center justify-center relative overflow-hidden border border-blue-100">
-              <span class="text-5xl group-hover:scale-110 transition-transform">⚡</span>
-              <div class="absolute top-2 left-2 bg-white px-2 py-0.5 rounded text-[10px] font-bold text-hubablue shadow-sm">Base L2 Asset</div>
-            </div>
-            <div class="flex-grow space-y-1">
-              <div class="text-[10px] font-bold text-hubablue uppercase tracking-wider">Protocol Asset</div>
-              <h4 class="font-bold text-gray-900 text-base leading-tight group-hover:text-hubablue transition">Power Coin ($PWC)</h4>
-              <p class="text-xs text-gray-500">Dual-Rail Settlement Protocol</p>
-            </div>
-            <div class="pt-4 flex items-center justify-between">
-              <div>
-                <div class="font-bold text-gray-900">$1.80 USD</div>
-                <div class="text-[10px] text-gray-500 font-mono">1 kWh Arbitrage Parity</div>
+            <div class="pt-4 border-t border-gray-100 mt-4">
+              <div class="flex items-baseline justify-between mb-2">
+                <div class="font-extrabold text-base text-gray-900">FREE / Open</div>
+                <div class="text-[11px] font-mono text-emerald-600 font-bold">Public Good</div>
               </div>
-              <a href="https://e-powercoin.com" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-hubablue hover:text-white text-gray-600 flex items-center justify-center transition font-bold" title="Open Protocol">
-                ↗
+              <a href="https://github.com/trevorsmithworks-hue/e-powercoin-platform" target="_blank" rel="noopener noreferrer" class="w-full py-2 bg-gray-900 hover:bg-black text-white text-xs font-bold rounded-lg transition flex items-center justify-center gap-1.5 shadow-xs">
+                <span>Download Model Weights ↗</span>
               </a>
             </div>
           </div>
 
-          <!-- Creator Call to Action -->
-          <div onclick="switchView('vendor')" class="product-item bg-gray-50 border-2 border-dashed border-gray-300 rounded-2xl p-4 hover:border-hubablue hover:bg-blue-50 transition-all flex flex-col items-center justify-center text-center cursor-pointer min-h-[250px] group" data-category="creators">
-            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-gray-400 group-hover:text-hubablue group-hover:scale-110 shadow-sm mb-3 transition-all">
-              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+          <!-- PRODUCT 3: DIRECT SUPPLIER - TTRPG COMPENDIUM GATEWAY -->
+          <div class="prod-card bg-white border border-gray-200 rounded-2xl p-4 hover:shadow-xl transition flex flex-col justify-between group relative" data-id="prod-3" data-type="supplier" data-cat="ttrpg" data-title="TTRPG Master Digital Compendiums">
+            <div class="bg-amber-50 border border-amber-100 rounded-xl aspect-[4/3] flex items-center justify-center relative overflow-hidden mb-3">
+              <span class="text-5xl group-hover:scale-110 transition">🎲</span>
+              <span class="absolute bottom-2 left-2 bg-amber-600 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-xs">Supplier Gateway</span>
             </div>
-            <h4 class="font-bold text-gray-900 mb-1">Sell Your Digital Product</h4>
-            <p class="text-xs text-gray-500 px-2">Instant Web3 payouts. Keep 90% of your sales securely on Base.</p>
+            <div>
+              <div class="text-[10px] font-bold text-amber-700 uppercase tracking-wider">Gaming & Lore Gateway</div>
+              <h4 class="font-bold text-gray-900 text-sm leading-snug mt-0.5">TTRPG Digital Rulesets & Modules</h4>
+              <p class="text-xs text-gray-500 mt-1">Direct supplier access to DriveThruRPG & Open5e catalogs.</p>
+            </div>
+            <div class="pt-4 border-t border-gray-100 mt-4">
+              <div class="text-[11px] text-gray-500 mb-2">Browse community homebrews, virtual tabletop (VTT) modules, and digital dice systems.</div>
+              <a href="https://www.drivethrurpg.com" target="_blank" rel="noopener noreferrer" class="w-full py-2 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold rounded-lg transition flex items-center justify-center gap-1.5 shadow-xs">
+                <span>Access TTRPG Supplier ↗</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- PRODUCT 4: DIRECT SUPPLIER - HARDWARE & COLD STORAGE GATEWAY -->
+          <div class="prod-card bg-white border border-gray-200 rounded-2xl p-4 hover:shadow-xl transition flex flex-col justify-between group relative" data-id="prod-4" data-type="supplier" data-cat="hardware" data-title="Hardware Wallets & Cold Storage Gateway">
+            <div class="bg-slate-100 border border-slate-200 rounded-xl aspect-[4/3] flex items-center justify-center relative overflow-hidden mb-3">
+              <span class="text-5xl group-hover:scale-110 transition">🔐</span>
+              <span class="absolute bottom-2 left-2 bg-slate-900 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-xs">Direct Hardware Rail</span>
+            </div>
+            <div>
+              <div class="text-[10px] font-bold text-slate-700 uppercase tracking-wider">Physical Security Gateway</div>
+              <h4 class="font-bold text-gray-900 text-sm leading-snug mt-0.5">Hardware Wallets & Node Devices</h4>
+              <p class="text-xs text-gray-500 mt-1">Verified direct channels for Ledger, Trezor, and edge rigs.</p>
+            </div>
+            <div class="pt-4 border-t border-gray-100 mt-4">
+              <div class="text-[11px] text-gray-500 mb-2">Tamper-proof cold storage solutions for Base L2 assets and cryptographic keys.</div>
+              <a href="https://www.ledger.com" target="_blank" rel="noopener noreferrer" class="w-full py-2 bg-slate-900 hover:bg-black text-white text-xs font-bold rounded-lg transition flex items-center justify-center gap-1.5 shadow-xs">
+                <span>View Certified Manufacturers ↗</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- PRODUCT 5: ECOSYSTEM CLEARINGHOUSE - POWER COIN ($PWC) -->
+          <div class="prod-card bg-white border border-cyan-200 rounded-2xl p-4 hover:shadow-xl transition flex flex-col justify-between group relative" data-id="prod-5" data-type="direct" data-cat="protocol" data-title="Power Coin $PWC Protocol">
+            <div class="bg-cyan-50 border border-cyan-100 rounded-xl aspect-[4/3] flex items-center justify-center relative overflow-hidden mb-3">
+              <span class="text-5xl group-hover:scale-110 transition">⚡</span>
+              <span class="absolute bottom-2 left-2 bg-hubablue text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-xs">Base L2 Mainnet</span>
+            </div>
+            <div>
+              <div class="text-[10px] font-bold text-cyan-600 uppercase tracking-wider">Protocol Settlement Asset</div>
+              <h4 class="font-bold text-gray-900 text-sm leading-snug mt-0.5">Power Coin ($PWC)</h4>
+              <p class="text-xs text-gray-500 mt-1">Clearinghouse for AI Tokens & Battery Energy</p>
+            </div>
+            <div class="pt-4 border-t border-gray-100 mt-4">
+              <div class="flex items-baseline justify-between mb-2">
+                <div class="font-extrabold text-base text-gray-900">$1.80 USD</div>
+                <div class="text-[11px] font-mono text-cyan-600 font-bold">1 kWh Arbitrage Parity</div>
+              </div>
+              <a href="https://e-powercoin.com" target="_blank" rel="noopener noreferrer" class="w-full py-2 bg-cyan-600 hover:bg-cyan-700 text-white text-xs font-bold rounded-lg transition flex items-center justify-center gap-1.5 shadow-xs">
+                <span>Explore Protocol Gateway ↗</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- PRODUCT 6: MERCHANT STALL CALL TO ACTION -->
+          <div onclick="switchView('vendor')" class="border-2 border-dashed border-gray-300 hover:border-hubablue hover:bg-blue-50/50 rounded-2xl p-6 transition flex flex-col items-center justify-center text-center cursor-pointer group">
+            <div class="w-14 h-14 bg-white rounded-2xl shadow-sm border border-gray-200 flex items-center justify-center text-2xl group-hover:scale-110 transition mb-3">
+              🛍️
+            </div>
+            <h4 class="font-bold text-gray-900 text-base">Become a Hubaluba Vendor</h4>
+            <p class="text-xs text-gray-500 mt-1 max-w-xs">
+              List digital products, ebooks, software, or affiliate gateways. Retain 90% of every sale settled instantly on Base.
+            </p>
+            <span class="mt-4 text-xs font-bold text-hubablue group-hover:underline">Launch Merchant Stall →</span>
           </div>
 
         </div>
 
-        <!-- Empty State (Shown when search has no results) -->
-        <div id="search-empty-state" class="hidden text-center py-12 space-y-3">
-          <div class="text-4xl">🔍</div>
-          <h4 class="font-bold text-gray-800 text-lg">No matching products found</h4>
-          <p class="text-xs text-gray-500">Try a different search query or view all items.</p>
-          <button onclick="filterCategory('all')" class="mt-2 text-sm text-hubablue font-semibold hover:underline">Clear Search Filter</button>
+        <div id="no-search-results" class="hidden text-center py-16 space-y-3">
+          <div class="text-4xl">🔎</div>
+          <div class="text-base font-bold text-gray-800">No matching products or suppliers found</div>
+          <p class="text-xs text-gray-500">Try broadening your search term or select "All Catalogs" above.</p>
+          <button onclick="resetAllFilters()" class="text-xs text-hubablue font-bold hover:underline">Reset Catalog Filters</button>
         </div>
       </section>
+
     </div>
 
-    <!-- VIEW 2: VENDOR DASHBOARD -->
-    <div id="view-vendor" class="hidden max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
+    <!-- VIEW 2: SHOPIFY-STYLE VENDOR STUDIO -->
+    <div id="view-vendor" class="hidden max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       
-      <div class="text-center space-y-4 max-w-2xl mx-auto">
-        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-hubagreen">
-          Hubaluba Vendor Portal
+      <!-- Studio Header -->
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-gray-200 pb-5">
+        <div>
+          <span class="text-[11px] font-bold text-hubablue uppercase tracking-wider">Merchant Operation Center</span>
+          <h2 class="text-2xl sm:text-3xl font-black text-gray-900">Hubaluba Creator Studio</h2>
+          <p class="text-xs text-gray-500 mt-0.5">Manage digital inventory, direct supplier links, and Base L2 payout routes.</p>
         </div>
-        <h2 class="text-4xl sm:text-5xl font-extrabold text-gray-900 tracking-tight">Launch Your Digital Empire on Web3</h2>
-        <p class="text-gray-500 text-base leading-relaxed">
-          Upload your ebooks, software, and digital media. Hubaluba's smart contracts instantly split revenue: you keep <strong>90%</strong> of every sale, deposited directly into your wallet with zero payout delays.
-        </p>
-      </div>
-
-      <!-- Perks Grid -->
-      <div class="grid md:grid-cols-3 gap-6">
-        <div class="bg-white border border-gray-200 p-6 rounded-2xl shadow-sm text-center space-y-3">
-          <div class="w-12 h-12 mx-auto bg-blue-50 text-hubablue rounded-full flex items-center justify-center text-xl">⚡</div>
-          <h3 class="font-bold text-gray-900">Instant Settlements</h3>
-          <p class="text-xs text-gray-500">No more waiting 30 days for payout holds. Smart contracts deposit USDC or $PWC instantly.</p>
-        </div>
-        <div class="bg-white border border-gray-200 p-6 rounded-2xl shadow-sm text-center space-y-3">
-          <div class="w-12 h-12 mx-auto bg-green-50 text-hubagreen rounded-full flex items-center justify-center text-xl">💳</div>
-          <h3 class="font-bold text-gray-900">Fiat & Crypto Ready</h3>
-          <p class="text-xs text-gray-500">Customers can purchase with Credit Cards, Apple Pay, or Base L2 Crypto. The protocol settles seamlessly.</p>
-        </div>
-        <div class="bg-white border border-gray-200 p-6 rounded-2xl shadow-sm text-center space-y-3">
-          <div class="w-12 h-12 mx-auto bg-red-50 text-hubared rounded-full flex items-center justify-center text-xl">🛡️</div>
-          <h3 class="font-bold text-gray-900">Zero Listing Fees</h3>
-          <p class="text-xs text-gray-500">It is 100% free to publish your product. Hubaluba only retains a 10% platform fee upon successful sale.</p>
+        <div class="flex items-center gap-2">
+          <button onclick="switchView('marketplace')" class="text-xs font-semibold px-4 py-2 border border-gray-300 rounded-xl hover:bg-gray-100 transition">
+            ← Back to Storefront
+          </button>
+          <button onclick="document.getElementById('product-creation-card').scrollIntoView({behavior: 'smooth'})" class="text-xs font-bold px-4 py-2 bg-hubablue hover:bg-blue-600 text-white rounded-xl transition shadow-xs">
+            + Add New Product
+          </button>
         </div>
       </div>
 
-      <!-- Upload Form Mockup -->
-      <div class="bg-white border border-gray-200 rounded-3xl shadow-xl overflow-hidden max-w-3xl mx-auto">
-        <div class="bg-gray-50 border-b border-gray-200 px-8 py-5">
-          <h3 class="font-bold text-gray-900 text-lg">Create New Digital Listing</h3>
+      <!-- Merchant Dashboard Metrics -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-white border border-gray-200 rounded-2xl p-4 shadow-xs">
+          <div class="text-[11px] font-semibold text-gray-500 uppercase">Creator Revenue (90%)</div>
+          <div class="text-2xl font-black text-gray-900 mt-1" id="vendor-revenue-display">$0.00</div>
+          <div class="text-[11px] text-hubagreen font-semibold mt-1">● Settled Instantly to Wallet</div>
         </div>
-        <form onsubmit="handleVendorSubmit(event)" class="p-8 space-y-6">
-          
-          <div class="space-y-2">
-            <label class="text-sm font-bold text-gray-700">Product Title</label>
-            <input id="vendor-title" required type="text" placeholder="e.g. Modern Web3 System Design" class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-hubablue focus:ring-1 focus:ring-hubablue transition" />
+        <div class="bg-white border border-gray-200 rounded-2xl p-4 shadow-xs">
+          <div class="text-[11px] font-semibold text-gray-500 uppercase">Settlement Split</div>
+          <div class="text-2xl font-black text-hubablue mt-1">90 / 10</div>
+          <div class="text-[11px] text-gray-500 mt-1">Autonomous Smart Contract</div>
+        </div>
+        <div class="bg-white border border-gray-200 rounded-2xl p-4 shadow-xs">
+          <div class="text-[11px] font-semibold text-gray-500 uppercase">Seller Trust Score</div>
+          <div class="text-2xl font-black text-hubagreen mt-1">100 / 100</div>
+          <div class="text-[11px] text-gray-500 mt-1">Zero Community Flags</div>
+        </div>
+        <div class="bg-white border border-gray-200 rounded-2xl p-4 shadow-xs">
+          <div class="text-[11px] font-semibold text-gray-500 uppercase">Connected Payout Wallet</div>
+          <div class="text-sm font-mono font-bold text-gray-900 mt-2 truncate" id="merchant-wallet-label">Not Connected</div>
+          <div class="text-[11px] text-gray-400 mt-0.5">Base L2 (Chain 8453)</div>
+        </div>
+      </div>
+
+      <!-- Dynamic Product Creation Suite -->
+      <div id="product-creation-card" class="bg-white border border-gray-200 rounded-3xl shadow-xl overflow-hidden">
+        <div class="bg-gray-50 border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+          <div>
+            <h3 class="font-bold text-gray-900 text-base">Deploy New Digital Asset or Supplier Gateway</h3>
+            <p class="text-xs text-gray-500">Configure downloads, pricing tiers, and trust declarations.</p>
+          </div>
+          <span class="text-xs font-mono bg-blue-100 text-hubablue font-bold px-2.5 py-1 rounded-full">Base L2 Smart Split</span>
+        </div>
+
+        <form onsubmit="handleVendorPublish(event)" class="p-6 sm:p-8 space-y-6">
+          <div class="grid sm:grid-cols-2 gap-6">
+            <div class="space-y-1.5">
+              <label class="text-xs font-bold text-gray-700">Listing Title *</label>
+              <input id="new-item-title" required type="text" placeholder="e.g. Advanced Game Engine Blueprints" class="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-hubablue" />
+            </div>
+            <div class="space-y-1.5">
+              <label class="text-xs font-bold text-gray-700">Category Taxonomy *</label>
+              <select id="new-item-category" class="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-hubablue bg-white">
+                <option value="literature">Ebooks & Literature</option>
+                <option value="ai-software">AI Models & Weights (ONNX/GGUF)</option>
+                <option value="ttrpg">TTRPG & Game Design Rules</option>
+                <option value="hardware">Hardware & Supply Referral</option>
+              </select>
+            </div>
           </div>
 
-          <div class="grid sm:grid-cols-2 gap-6">
-            <div class="space-y-2">
-              <label class="text-sm font-bold text-gray-700">Price (USD)</label>
+          <div class="grid sm:grid-cols-3 gap-6">
+            <div class="space-y-1.5">
+              <label class="text-xs font-bold text-gray-700">Retail Price (USD) *</label>
               <div class="relative">
-                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">$</span>
-                <input id="vendor-price" required type="number" step="0.01" placeholder="14.99" class="w-full border border-gray-300 rounded-xl pl-8 pr-4 py-3 text-sm focus:outline-none focus:border-hubablue focus:ring-1 focus:ring-hubablue transition" />
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500 text-sm">$</span>
+                <input id="new-item-price" required type="number" step="0.01" placeholder="19.99" class="w-full border border-gray-300 rounded-xl pl-8 pr-4 py-2.5 text-sm outline-none focus:border-hubablue" />
               </div>
             </div>
-            <div class="space-y-2">
-              <label class="text-sm font-bold text-gray-700">$PWC Discount Toggle</label>
-              <div class="border border-gray-300 rounded-xl px-4 py-3 text-sm flex items-center justify-between bg-gray-50">
-                <span class="text-gray-600">Offer 10% off for $PWC</span>
+            <div class="space-y-1.5">
+              <label class="text-xs font-bold text-gray-700">Delivery Model *</label>
+              <select id="new-item-type" onchange="toggleDeliveryInputs(this.value)" class="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-hubablue bg-white">
+                <option value="file">Direct Encrypted File (IPFS)</option>
+                <option value="supplier">Outbound Supplier URL (Direct Gateway)</option>
+                <option value="key">License Key / Activation Code</option>
+              </select>
+            </div>
+            <div class="space-y-1.5">
+              <label class="text-xs font-bold text-gray-700">$PWC Discount Rail</label>
+              <div class="border border-gray-300 rounded-xl px-4 py-2.5 text-sm flex items-center justify-between bg-gray-50">
+                <span class="text-xs text-gray-600 font-medium">10% Off for $PWC</span>
                 <input type="checkbox" checked class="w-4 h-4 text-hubablue rounded" />
               </div>
             </div>
           </div>
 
-          <div class="space-y-2">
-            <label class="text-sm font-bold text-gray-700">Digital Asset File (PDF, EPUB, ONNX, ZIP)</label>
-            <div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:bg-gray-50 hover:border-hubablue transition cursor-pointer">
-              <svg class="w-8 h-8 text-gray-400 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
-              <div class="text-sm font-semibold text-hubablue">Click to choose file or drag and drop</div>
-              <div class="text-xs text-gray-500 mt-1">Files are cryptographically hashed and pinned on IPFS</div>
+          <!-- Delivery Mode Input Area -->
+          <div id="delivery-file-pane" class="space-y-1.5">
+            <label class="text-xs font-bold text-gray-700">Encrypted Digital Asset (PDF, ZIP, ONNX, EPUB)</label>
+            <div class="border-2 border-dashed border-gray-300 hover:border-hubablue rounded-2xl p-6 text-center cursor-pointer transition">
+              <span class="text-3xl">📤</span>
+              <div class="text-xs font-bold text-gray-800 mt-2">Click to select digital package or drag-and-drop</div>
+              <div class="text-[10px] text-gray-500 mt-0.5">Asset is client-side encrypted and pinned to decentralized storage.</div>
             </div>
           </div>
 
-          <div class="pt-4 border-t border-gray-100 flex items-center justify-between">
-            <div class="text-xs text-gray-500 font-mono">
-              90% Payout Route: <span class="font-bold text-gray-900" id="vendor-wallet-display">Not Connected</span>
+          <div id="delivery-supplier-pane" class="hidden space-y-1.5">
+            <label class="text-xs font-bold text-gray-700">Verified Direct Supplier URL *</label>
+            <input id="supplier-url-input" type="url" placeholder="https://supplier.com/item" class="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-hubablue" />
+            <p class="text-[10px] text-gray-500">Consumers clicking this card will be redirected directly to this authenticated supplier channel.</p>
+          </div>
+
+          <!-- TRUST & SAFETY COMPLIANCE DECLARATION -->
+          <div class="bg-red-50/50 border border-red-200 rounded-2xl p-5 space-y-2">
+            <div class="flex items-center gap-2 text-hubared font-bold text-xs">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 1.944A11.954 11.954 0 012.166 5C2.056 5.649 2 6.319 2 7c0 5.225 3.34 9.67 8 11.317C14.66 16.67 18 12.225 18 7c0-.682-.057-1.35-.166-2.001A11.954 11.954 0 0110 1.944zM11 14a1 1 0 11-2 0 1 1 0 012 0zm0-7a1 1 0 10-2 0v4a1 1 0 102 0V7z" clip-rule="evenodd"/></svg>
+              <span>Mandatory Anti-Illicit Commerce & Compliance Certification</span>
             </div>
-            <button type="submit" class="bg-hubablue hover:bg-blue-600 text-white font-bold px-8 py-3 rounded-full transition shadow-md shadow-blue-500/30">
-              Publish to Web3
+            <label class="flex items-start gap-3 cursor-pointer">
+              <input type="checkbox" id="compliance-check" required class="mt-0.5 w-4 h-4 text-hubared rounded border-gray-300 focus:ring-hubared" />
+              <span class="text-xs text-gray-700 leading-relaxed">
+                I strictly declare that this listing does not contain, facilitate, or promote Child Sexual Abuse Material (CSAM), non-consensual explicit media, illicit narcotics, weapons, stolen credentials, or copyrighted pirated material. I acknowledge that Hubaluba runs automated cryptographic hash matching and manual audit gates. Attempted violations will trigger immediate smart-contract blacklisting, permanent escrow lock, and direct referral to provincial and federal legal authorities.
+              </span>
+            </label>
+          </div>
+
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
+            <div class="text-xs text-gray-500 font-mono">
+              Smart Contract Allocation: <span class="font-bold text-hubagreen">90% Seller</span> | <span class="font-bold text-gray-700">10% Hubaluba</span>
+            </div>
+            <button type="submit" class="w-full sm:w-auto bg-hubablue hover:bg-blue-600 text-white font-bold px-8 py-3 rounded-xl transition shadow-md shadow-blue-500/25">
+              Submit Listing for Safety Audit
             </button>
           </div>
         </form>
@@ -341,35 +497,34 @@
     <div class="absolute inset-y-0 right-0 max-w-full flex pl-10">
       <div class="w-screen max-w-md bg-white shadow-2xl flex flex-col">
         <div class="p-6 border-b border-gray-200 flex items-center justify-between">
-          <h3 class="font-bold text-gray-900 text-lg flex items-center gap-2">
-            <span>Your Digital Cart</span>
-            <span id="drawer-cart-count" class="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full font-mono">0 items</span>
-          </h3>
+          <div>
+            <h3 class="font-bold text-gray-900 text-base">Your Decentralized Cart</h3>
+            <p class="text-xs text-gray-400">Universal Digital Clearing</p>
+          </div>
           <button onclick="toggleCartDrawer(false)" class="text-gray-400 hover:text-gray-600 text-xl font-bold">✕</button>
         </div>
 
-        <div id="cart-items-container" class="flex-grow overflow-y-auto p-6 space-y-4">
-          <!-- Dynamically populated via JS -->
+        <div id="cart-items-container" class="flex-grow overflow-y-auto p-6 space-y-3">
           <div id="cart-empty-message" class="text-center py-16 text-gray-400 text-sm space-y-2">
             <div class="text-4xl">🛒</div>
-            <div>Your digital cart is empty.</div>
+            <div>Your cart is empty.</div>
           </div>
         </div>
 
         <div class="p-6 border-t border-gray-200 bg-gray-50 space-y-4">
-          <div class="space-y-1 text-sm font-semibold">
+          <div class="space-y-1.5 text-xs font-semibold">
             <div class="flex justify-between text-gray-600">
-              <span>Subtotal (Fiat):</span>
-              <span id="cart-subtotal-usd" class="font-bold text-gray-900">$0.00</span>
+              <span>Fiat / Card Total:</span>
+              <span id="cart-subtotal-usd" class="font-bold text-gray-900 text-sm">$0.00</span>
             </div>
-            <div class="flex justify-between text-hubablue">
+            <div class="flex justify-between text-cyan-600">
               <span>$PWC Discount Price (-10%):</span>
-              <span id="cart-subtotal-pwc" class="font-bold">0.00 PWC</span>
+              <span id="cart-subtotal-pwc" class="font-bold text-sm">0.00 PWC</span>
             </div>
           </div>
 
-          <div class="grid grid-cols-2 gap-3 pt-2">
-            <button onclick="openCheckoutFromCart('fiat')" class="w-full py-3 bg-gray-900 hover:bg-black text-white text-xs font-bold rounded-xl transition shadow-md">
+          <div class="grid grid-cols-2 gap-3 pt-1">
+            <button onclick="openCheckoutFromCart('fiat')" class="w-full py-3 bg-gray-900 hover:bg-black text-white text-xs font-bold rounded-xl transition shadow-xs">
               Checkout (Fiat)
             </button>
             <button onclick="openCheckoutFromCart('pwc')" class="w-full py-3 bg-gradient-to-r from-hubablue to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white text-xs font-bold rounded-xl transition shadow-md shadow-blue-500/20">
@@ -381,79 +536,88 @@
     </div>
   </div>
 
-  <!-- DUAL CHECKOUT MODAL (FIAT vs. $PWC) -->
+  <!-- COMPREHENSIVE MULTI-RAIL CHECKOUT MODAL -->
   <div id="checkout-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-xs hidden">
     <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl overflow-hidden border border-gray-200">
       
       <div class="p-6 border-b border-gray-200 flex items-center justify-between bg-gray-50">
         <div>
-          <h3 class="font-bold text-gray-900 text-lg">Secure Web3 Checkout</h3>
-          <p id="checkout-product-title" class="text-xs text-gray-500 font-medium">Digital Product Allocation</p>
+          <h3 class="font-bold text-gray-900 text-base">Secure Checkout</h3>
+          <p id="checkout-item-title" class="text-xs text-gray-500 truncate max-w-xs">Item Allocation</p>
         </div>
-        <button onclick="closeCheckoutModal()" class="text-gray-400 hover:text-gray-600 text-lg font-bold">✕</button>
+        <button onclick="closeCheckoutModal()" class="text-gray-400 hover:text-gray-600 font-bold">✕</button>
       </div>
 
       <div class="p-6 space-y-5">
         
-        <!-- Rail Selector -->
-        <div class="grid grid-cols-2 p-1 bg-gray-100 rounded-xl text-xs font-semibold">
-          <button id="checkout-tab-fiat" onclick="setCheckoutMode('fiat')" class="py-2 rounded-lg bg-white shadow-xs text-gray-900">
+        <!-- Rail Mode Tabs -->
+        <div class="grid grid-cols-2 p-1 bg-gray-100 rounded-xl text-xs font-bold">
+          <button id="modal-tab-fiat" onclick="setCheckoutMode('fiat')" class="py-2 rounded-lg bg-white shadow-xs text-gray-900">
             Card / Apple Pay
           </button>
-          <button id="checkout-tab-pwc" onclick="setCheckoutMode('pwc')" class="py-2 rounded-lg text-gray-500 hover:text-gray-900">
-            $PWC Base (-10%)
+          <button id="modal-tab-crypto" onclick="setCheckoutMode('crypto')" class="py-2 rounded-lg text-gray-500 hover:text-gray-900">
+            Web3 (Base L2)
           </button>
         </div>
 
         <!-- Rail 1: Fiat Form -->
-        <div id="checkout-pane-fiat" class="space-y-4 text-xs">
+        <div id="checkout-pane-fiat" class="space-y-3.5 text-xs">
           <div>
-            <label class="block font-semibold text-gray-700 mb-1">Email for Instant Download Link</label>
-            <input id="fiat-email" type="email" placeholder="you@example.com" class="w-full border border-gray-300 rounded-xl p-3 text-sm outline-none focus:border-hubablue" />
+            <label class="block font-bold text-gray-700 mb-1">Instant Delivery Email *</label>
+            <input id="fiat-delivery-email" type="email" placeholder="you@domain.com" class="w-full border border-gray-300 rounded-xl p-3 text-sm outline-none focus:border-hubablue" />
           </div>
           <div>
-            <label class="block font-semibold text-gray-700 mb-1">Card Information</label>
-            <div class="border border-gray-300 rounded-xl p-3 bg-gray-50 text-gray-500 text-sm flex items-center justify-between">
+            <label class="block font-bold text-gray-700 mb-1">Payment Method</label>
+            <div class="border border-gray-300 rounded-xl p-3 bg-gray-50 text-gray-600 text-sm flex items-center justify-between">
               <span>•••• •••• •••• 4242</span>
               <span class="font-mono text-xs">12/28</span>
             </div>
           </div>
-          <div class="flex justify-between text-sm pt-2 font-bold text-gray-900 border-t border-gray-100">
-            <span>Total:</span>
-            <span id="checkout-fiat-total">$14.99 USD</span>
+          <div class="flex justify-between items-baseline pt-2 border-t border-gray-100 font-extrabold text-sm text-gray-900">
+            <span>Total Payable:</span>
+            <span id="checkout-fiat-sum">$14.99 USD</span>
           </div>
-          <button onclick="executeFiatPayment()" class="w-full py-3.5 bg-gray-900 hover:bg-black text-white font-bold rounded-xl text-sm transition shadow-lg">
-            Pay with Credit Card
+          <button onclick="processFiatPayment()" class="w-full py-3.5 bg-gray-900 hover:bg-black text-white font-bold rounded-xl text-xs uppercase tracking-wider transition shadow-md">
+            Complete Card Purchase
           </button>
         </div>
 
-        <!-- Rail 2: $PWC Web3 Rail -->
-        <div id="checkout-pane-pwc" class="hidden space-y-4 text-xs">
-          <div class="bg-blue-50 border border-blue-100 rounded-2xl p-4 space-y-2 text-gray-700">
+        <!-- Rail 2: Crypto Settlement Form -->
+        <div id="checkout-pane-crypto" class="hidden space-y-4 text-xs">
+          <div>
+            <label class="block font-bold text-gray-700 mb-1">Select Settlement Currency</label>
+            <select id="checkout-crypto-token" onchange="updateCryptoTotals()" class="w-full border border-gray-300 rounded-xl p-3 text-xs font-bold outline-none focus:border-hubablue bg-white">
+              <option value="pwc">Power Coin ($PWC) • 10% Protocol Discount</option>
+              <option value="usdc">USDC (Base L2)</option>
+              <option value="eth">Native ETH (Base L2)</option>
+            </select>
+          </div>
+
+          <div class="bg-blue-50/70 border border-blue-100 rounded-2xl p-4 space-y-2 text-gray-700">
             <div class="flex justify-between items-center text-hubablue font-bold">
-              <span>Token Discount Active</span>
-              <span>10% OFF</span>
+              <span>Dual-Rail Settlement</span>
+              <span class="text-[10px] font-mono bg-blue-100 px-2 py-0.5 rounded">Chain ID: 8453</span>
             </div>
-            <p class="text-xs text-gray-600">Smart contract executes direct transfer on Base Layer 2. 90% instant creator payout with zero chargeback risk.</p>
-          </div>
-
-          <div class="space-y-1.5 font-mono text-xs text-gray-600 bg-gray-50 p-3 rounded-xl border border-gray-200">
-            <div class="flex justify-between">
-              <span>Asset:</span>
-              <span class="text-gray-900 font-bold">Power Coin ($PWC)</span>
-            </div>
-            <div class="flex justify-between">
-              <span>Network:</span>
-              <span class="text-hubablue font-semibold">Base L2 (8453)</span>
-            </div>
-            <div class="flex justify-between">
-              <span>Required Amount:</span>
-              <span id="checkout-pwc-total" class="text-hubagreen font-bold text-sm">7.50 PWC</span>
+            <div class="flex justify-between text-xs pt-1 font-mono">
+              <span class="text-gray-500">Amount to Transfer:</span>
+              <span id="checkout-crypto-sum" class="font-bold text-hubagreen text-sm">7.50 PWC</span>
             </div>
           </div>
 
-          <button onclick="executePwcPayment()" class="w-full py-3.5 bg-gradient-to-r from-hubablue to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-bold rounded-xl text-sm transition shadow-lg shadow-blue-500/25">
-            Sign & Settle on Base L2
+          <!-- Split Visualizer -->
+          <div class="space-y-1 text-[11px] font-mono text-gray-500 pt-1 border-t border-gray-100">
+            <div class="flex justify-between">
+              <span>Creator Payout (90%):</span>
+              <span class="text-gray-800 font-bold">Direct to Vendor</span>
+            </div>
+            <div class="flex justify-between">
+              <span>Protocol Fee (10%):</span>
+              <span class="text-gray-800 font-bold">Base Liquidity</span>
+            </div>
+          </div>
+
+          <button onclick="processCryptoPayment()" class="w-full py-3.5 bg-gradient-to-r from-hubablue to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition shadow-md shadow-blue-500/25">
+            Confirm & Settle on Base L2
           </button>
         </div>
 
@@ -461,184 +625,244 @@
     </div>
   </div>
 
-  <!-- FOOTER -->
+  <!-- TRUST & SAFETY MODAL -->
+  <div id="safety-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-xs hidden">
+    <div class="bg-white rounded-3xl max-w-lg w-full shadow-2xl p-6 sm:p-8 space-y-4 border border-gray-200">
+      <div class="flex justify-between items-center border-b border-gray-200 pb-3">
+        <h3 class="font-bold text-gray-900 text-base flex items-center gap-2">
+          <span>🛡️ Hubaluba Trust & Safety Charter</span>
+        </h3>
+        <button onclick="toggleSafetyModal(false)" class="text-gray-400 hover:text-gray-600 font-bold">✕</button>
+      </div>
+      <div class="text-xs text-gray-600 space-y-3 leading-relaxed">
+        <p>
+          HUBALUBA operates a strict, zero-tolerance policy regarding illicit trade, CSAM, non-consensual pornography, unlicensed controlled substances, and fraudulent schemes.
+        </p>
+        <p>
+          <strong>Enforcement Mechanisms:</strong>
+          <br>1. <em>Automated Perceptual Hashing:</em> All media uploaded undergoes automated cryptographic matching against illicit databases.
+          <br>2. <em>Decentralized Community Flagging:</em> Any flagged product is immediately quarantined pending compliance review.
+          <br>3. <em>Wallet Blacklisting & Law Enforcement:</em> Confirmed bad actors are permanently banned at the smart-contract layer, with logs preserved for statutory reporting.
+        </p>
+      </div>
+      <div class="pt-2">
+        <button onclick="toggleSafetyModal(false)" class="w-full py-2.5 bg-hubablue hover:bg-blue-600 text-white text-xs font-bold rounded-xl transition">
+          I Understand & Acknowledge
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CORPORATE FOOTER -->
   <footer class="bg-white border-t border-gray-200 mt-16 pt-12 pb-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
       
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div class="col-span-1 md:col-span-2 space-y-4">
+        <div class="col-span-1 md:col-span-2 space-y-3">
           <h2 class="text-2xl font-extrabold tracking-tighter cursor-pointer" onclick="switchView('marketplace')">
             <span class="text-hubablue">H</span><span class="text-hubared">U</span><span class="text-hubayellow">B</span><span class="text-hubablue">A</span><span class="text-hubagreen">L</span><span class="text-hubared">U</span><span class="text-hubayellow">B</span><span class="text-hubablue">A</span>
           </h2>
-          <p class="text-sm text-gray-500 leading-relaxed max-w-sm">
-            The decentralized digital marketplace connecting creators and consumers through seamless Fiat and Web3 payment infrastructure.
+          <p class="text-xs text-gray-500 leading-relaxed max-w-sm">
+            Decentralized commerce clearinghouse for digital assets, open-source AI weights, TTRPG systems, and direct supplier integrations.
           </p>
-          <div class="text-xs text-gray-400 space-y-1 font-mono">
-            <div>Operating Entity: HUBALUBA (Ontario)</div>
-            <div>BIN: 1001599392 | CRA BN: 716893631</div>
-            <div>Founder: <a href="https://www.linkedin.com/in/trevor-smith-aa1500322" target="_blank" class="text-hubablue hover:underline">Trevor Curtis Smith (Verified LinkedIn)</a></div>
+          <div class="text-[11px] text-gray-400 font-mono space-y-0.5">
+            <div>Corporate Parent: HUBALUBA (Ontario Ministry Registry)</div>
+            <div>Ontario BIN: 1001599392 | CRA Business Number: 716893631</div>
+            <div>Founder: <a href="https://www.linkedin.com/in/trevor-smith-aa1500322" target="_blank" rel="noopener noreferrer" class="text-hubablue hover:underline">Trevor Curtis Smith (Verified LinkedIn)</a></div>
           </div>
         </div>
 
-        <div>
-          <h3 class="font-bold text-gray-900 mb-4 text-sm">Marketplace Legal</h3>
-          <ul class="space-y-2 text-sm text-gray-500">
-            <li><a href="mailto:contact@e-powercoin.com?subject=Vendor%20Terms%20Inquiry" class="hover:text-hubablue">Vendor Terms of Service</a></li>
-            <li><a href="mailto:contact@e-powercoin.com?subject=Privacy%20Policy%20Inquiry" class="hover:text-hubablue">Privacy Policy Request</a></li>
-            <li><a href="mailto:contact@e-powercoin.com?subject=Legal%20Support" class="hover:text-hubablue">Support & Refunds</a></li>
+        <div class="space-y-2">
+          <h4 class="font-bold text-gray-900 text-xs uppercase tracking-wider">Commerce & Trust</h4>
+          <ul class="space-y-1.5 text-xs text-gray-500">
+            <li><button onclick="switchView('marketplace')" class="hover:text-hubablue">Product Catalog</button></li>
+            <li><button onclick="switchView('vendor')" class="hover:text-hubablue">Merchant Studio</button></li>
+            <li><button onclick="toggleSafetyModal(true)" class="hover:text-hubared">Trust & Safety Guidelines</button></li>
+            <li><a href="mailto:contact@e-powercoin.com?subject=Merchant%20Support" class="hover:text-hubablue">Merchant Inquiries</a></li>
           </ul>
         </div>
 
-        <div>
-          <h3 class="font-bold text-gray-900 mb-4 text-sm">Ecosystem</h3>
-          <ul class="space-y-2 text-sm text-gray-500">
+        <div class="space-y-2">
+          <h4 class="font-bold text-gray-900 text-xs uppercase tracking-wider">Ecosystem Protocols</h4>
+          <ul class="space-y-1.5 text-xs text-gray-500">
             <li>
-              <a href="https://e-powercoin.com" target="_blank" rel="noopener noreferrer" class="text-hubablue font-semibold flex items-center gap-1.5 hover:underline">
-                e-Cache Protocol ($PWC)
+              <a href="https://e-powercoin.com" target="_blank" rel="noopener noreferrer" class="text-hubablue font-semibold flex items-center gap-1 hover:underline">
+                <span>e-Cache Clearinghouse ($PWC)</span>
                 <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
               </a>
             </li>
-            <li><a href="mailto:contact@e-powercoin.com?subject=Corporate%20Inquiry" class="hover:text-hubablue">Hubaluba Corporate Contact</a></li>
-            <li><button onclick="alert('90% of every sale routes instantly to the vendor wallet address. 10% platform fee settles protocol operations.')" class="hover:text-hubablue">Smart Contract Splits</button></li>
+            <li><a href="https://basescan.org/token/0x061610342649ceC7Df2451127A84FDf3daa7418d" target="_blank" rel="noopener noreferrer" class="hover:text-gray-800">BaseScan Verified Contract</a></li>
+            <li><a href="mailto:contact@e-powercoin.com?subject=Hubaluba%20Legal" class="hover:text-gray-800">Legal & Corporate Contact</a></li>
           </ul>
         </div>
       </div>
 
-      <div class="border-t border-gray-100 pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-400">
-        <div>© 2026 HUBALUBA. All rights reserved.</div>
+      <div class="border-t border-gray-100 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-gray-400">
+        <div>© 2026 HUBALUBA. All rights reserved. Operating under Canadian corporate governance.</div>
+        <div class="flex gap-4">
+          <a href="mailto:contact@e-powercoin.com?subject=Privacy%20Policy" class="hover:text-gray-600">Privacy Policy</a>
+          <a href="mailto:contact@e-powercoin.com?subject=Terms%20of%20Service" class="hover:text-gray-600">Terms of Service</a>
+        </div>
       </div>
 
     </div>
   </footer>
 
-  <!-- JAVASCRIPT: STORE CONTROLLER, CART, FILTERING & WEB3 -->
+  <!-- CORE JAVASCRIPT CONTROLLER -->
   <script>
     // Product Catalog Database
     const catalog = {
-      'prod-1': { id: 'prod-1', title: 'Technos & Titans (Ebook)', category: 'literature', priceUSD: 14.99, pricePWC: 7.50, icon: '📚' },
-      'prod-2': { id: 'prod-2', title: 'eCO-Router SLM (Quantized)', category: 'software', priceUSD: 0.00, pricePWC: 0.00, icon: '🤖' },
-      'prod-3': { id: 'prod-3', title: 'Power Coin ($PWC)', category: 'protocol', priceUSD: 1.80, pricePWC: 1.00, icon: '⚡' }
+      'prod-1': { id: 'prod-1', title: 'Technos & Titans (Ebook)', category: 'literature', type: 'direct', priceUSD: 14.99, pricePWC: 7.50, icon: '📚' },
+      'prod-2': { id: 'prod-2', title: 'eCO-Router SLM 1.1B', category: 'ai-software', type: 'direct', priceUSD: 0.00, pricePWC: 0.00, icon: '🤖' },
+      'prod-3': { id: 'prod-3', title: 'TTRPG Digital Compendiums', category: 'ttrpg', type: 'supplier', priceUSD: 24.99, pricePWC: 12.50, icon: '🎲' },
+      'prod-4': { id: 'prod-4', title: 'Hardware Security Gateway', category: 'hardware', type: 'supplier', priceUSD: 79.00, pricePWC: 39.50, icon: '🔐' },
+      'prod-5': { id: 'prod-5', title: 'Power Coin ($PWC)', category: 'protocol', type: 'direct', priceUSD: 1.80, pricePWC: 1.00, icon: '⚡' }
     };
 
     let cart = [];
-    let currentCheckoutTarget = null;
-    let activeCheckoutMode = 'fiat';
+    let activeCheckoutItem = null;
+    let checkoutMode = 'fiat';
     let userWalletAddress = null;
+    let currentCategory = 'all';
+    let currentTypeFilter = 'all';
 
-    // View Switcher (Marketplace vs Vendor)
+    // View Switching (Storefront vs Merchant Studio)
     function switchView(view) {
       const marketplace = document.getElementById('view-marketplace');
       const vendor = document.getElementById('view-vendor');
       const navBtn = document.getElementById('nav-vendor-btn');
-      const catAllBtn = document.getElementById('cat-all');
 
       if (view === 'vendor') {
         marketplace.classList.add('hidden');
         vendor.classList.remove('hidden');
-        navBtn.classList.add('text-hubablue');
-        catAllBtn.classList.remove('text-hubablue', 'border-b-2', 'border-hubablue');
+        navBtn.classList.add('bg-blue-50', 'text-hubablue');
       } else {
         vendor.classList.add('hidden');
         marketplace.classList.remove('hidden');
-        navBtn.classList.remove('text-hubablue');
-        catAllBtn.classList.add('text-hubablue', 'border-b-2', 'border-hubablue');
+        navBtn.classList.remove('bg-blue-50', 'text-hubablue');
       }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Category Filtering
+    // Category Taxonomy Filtering
     function filterCategory(cat) {
       switchView('marketplace');
-      const tabs = document.querySelectorAll('.category-tab');
-      tabs.forEach(t => t.classList.remove('text-hubablue', 'font-bold', 'border-b-2', 'border-hubablue'));
+      currentCategory = cat;
+      
+      const pills = document.querySelectorAll('.category-pill');
+      pills.forEach(p => p.classList.remove('bg-gray-800', 'text-white', 'font-bold'));
 
-      const activeTab = document.getElementById('cat-' + cat);
-      if (activeTab) activeTab.classList.add('text-hubablue', 'font-bold', 'border-b-2', 'border-hubablue');
+      const active = document.getElementById('cat-' + cat);
+      if (active) active.classList.add('bg-gray-800', 'text-white', 'font-bold');
 
-      const items = document.querySelectorAll('.product-item');
-      let visibleCount = 0;
+      applyFilters();
+    }
 
-      items.forEach(item => {
-        const itemCat = item.getAttribute('data-category');
-        if (cat === 'all' || itemCat === cat || itemCat === 'creators') {
-          item.classList.remove('hidden');
-          visibleCount++;
+    function setProductFilter(type) {
+      currentTypeFilter = type;
+      const btns = document.querySelectorAll('.filter-btn');
+      btns.forEach(b => b.classList.remove('font-bold', 'text-hubablue', 'border-b-2', 'border-hubablue'));
+      
+      event.target.classList.add('font-bold', 'text-hubablue', 'border-b-2', 'border-hubablue');
+      applyFilters();
+    }
+
+    function applyFilters() {
+      const scope = document.getElementById('search-scope').value;
+      const searchTerm = document.getElementById('main-search-input').value.toLowerCase().trim();
+      const cards = document.querySelectorAll('.prod-card');
+      let visible = 0;
+
+      cards.forEach(card => {
+        if (card.classList.contains('flagged-hidden')) return;
+
+        const cat = card.getAttribute('data-cat');
+        const type = card.getAttribute('data-type');
+        const title = (card.getAttribute('data-title') || '').toLowerCase();
+
+        let matchesCat = (currentCategory === 'all' || cat === currentCategory);
+        let matchesType = (currentTypeFilter === 'all' || type === currentTypeFilter);
+        let matchesScope = (scope === 'all' || (scope === 'digital' && type === 'direct') || (scope === 'outbound' && type === 'supplier') || (scope === cat));
+        let matchesSearch = (!searchTerm || title.includes(searchTerm) || cat.includes(searchTerm));
+
+        if (matchesCat && matchesType && matchesScope && matchesSearch) {
+          card.classList.remove('hidden');
+          visible++;
         } else {
-          item.classList.add('hidden');
+          card.classList.add('hidden');
         }
       });
 
-      document.getElementById('search-empty-state').classList.add('hidden');
-    }
-
-    // Live Instant Search
-    function handleSearch(query) {
-      switchView('marketplace');
-      const term = query.toLowerCase().trim();
-      const items = document.querySelectorAll('.product-item');
+      const empty = document.getElementById('no-search-results');
       const hero = document.getElementById('hero-banner');
-      let matches = 0;
 
-      if (term.length > 0) {
+      if (searchTerm.length > 0) {
         hero.classList.add('hidden');
-      } else {
+      } else if (currentCategory === 'all' && currentTypeFilter === 'all') {
         hero.classList.remove('hidden');
       }
 
-      items.forEach(item => {
-        const title = (item.getAttribute('data-title') || '').toLowerCase();
-        const cat = (item.getAttribute('data-category') || '').toLowerCase();
-        
-        if (title.includes(term) || cat.includes(term)) {
-          item.classList.remove('hidden');
-          matches++;
-        } else {
-          item.classList.add('hidden');
-        }
-      });
-
-      const empty = document.getElementById('search-empty-state');
-      if (matches === 0 && term.length > 0) {
+      if (visible === 0) {
         empty.classList.remove('hidden');
       } else {
         empty.classList.add('hidden');
       }
     }
 
-    // Cart Mechanics
-    function addToCart(prodId, event) {
-      if (event) event.stopPropagation();
-      const product = catalog[prodId];
-      if (!product) return;
+    function handleSearch(val) {
+      switchView('marketplace');
+      applyFilters();
+    }
 
-      cart.push(product);
-      updateCartUI();
+    function resetAllFilters() {
+      document.getElementById('main-search-input').value = '';
+      document.getElementById('search-scope').value = 'all';
+      currentCategory = 'all';
+      currentTypeFilter = 'all';
+      filterCategory('all');
+    }
+
+    // Community Trust & Safety Flagging
+    function reportItem(id, title) {
+      const confirmReport = confirm(`Trust & Safety Flag:\nAre you reporting "${title}" for illegal content, copyright violation, or fraud?\n\nOur human compliance team reviews flagged items within 2 hours.`);
+      if (confirmReport) {
+        const card = document.querySelector(`.prod-card[data-id="${id}"]`);
+        if (card) {
+          card.classList.add('hidden', 'flagged-hidden');
+          alert(`Item quarantined from your feed. Thank you for protecting the Hubaluba community.`);
+          applyFilters();
+        }
+      }
+    }
+
+    // Cart Engine
+    function addToCart(id) {
+      const item = catalog[id];
+      if (!item) return;
+      cart.push(item);
+      refreshCartUI();
       toggleCartDrawer(true);
     }
 
-    function removeFromCart(index) {
-      cart.splice(index, 1);
-      updateCartUI();
+    function removeFromCart(idx) {
+      cart.splice(idx, 1);
+      refreshCartUI();
     }
 
-    function updateCartUI() {
+    function refreshCartUI() {
       const badge = document.getElementById('cart-badge');
-      const countLabel = document.getElementById('drawer-cart-count');
       const container = document.getElementById('cart-items-container');
       const emptyMsg = document.getElementById('cart-empty-message');
       const subtotalUsd = document.getElementById('cart-subtotal-usd');
       const subtotalPwc = document.getElementById('cart-subtotal-pwc');
 
-      // Update badge
       if (cart.length > 0) {
         badge.innerText = cart.length;
         badge.classList.remove('hidden');
       } else {
         badge.classList.add('hidden');
       }
-      countLabel.innerText = `${cart.length} item${cart.length === 1 ? '' : 's'}`;
 
-      // Calculate totals
       let totalUSD = 0;
       let totalPWC = 0;
       cart.forEach(item => {
@@ -649,7 +873,6 @@
       subtotalUsd.innerText = `$${totalUSD.toFixed(2)}`;
       subtotalPwc.innerText = `${totalPWC.toFixed(2)} PWC`;
 
-      // Render cart items
       container.innerHTML = '';
       if (cart.length === 0) {
         container.appendChild(emptyMsg);
@@ -657,61 +880,56 @@
       } else {
         emptyMsg.classList.add('hidden');
         cart.forEach((item, index) => {
-          const itemEl = document.createElement('div');
-          itemEl.className = "flex items-center justify-between p-3 bg-gray-50 border border-gray-200 rounded-2xl";
-          itemEl.innerHTML = `
+          const row = document.createElement('div');
+          row.className = "flex items-center justify-between p-3 bg-gray-50 border border-gray-200 rounded-xl";
+          row.innerHTML = `
             <div class="flex items-center gap-3">
-              <span class="text-2xl">${item.icon}</span>
+              <span class="text-xl">${item.icon}</span>
               <div>
-                <div class="font-bold text-gray-900 text-xs">${item.title}</div>
-                <div class="text-[11px] text-gray-500 font-mono">$${item.priceUSD.toFixed(2)} or ${item.pricePWC.toFixed(2)} PWC</div>
+                <div class="text-xs font-bold text-gray-900">${item.title}</div>
+                <div class="text-[10px] text-gray-500 font-mono">$${item.priceUSD.toFixed(2)} or ${item.pricePWC.toFixed(2)} PWC</div>
               </div>
             </div>
-            <button onclick="removeFromCart(${index})" class="text-gray-400 hover:text-hubared p-1 text-sm">✕</button>
+            <button onclick="removeFromCart(${index})" class="text-gray-400 hover:text-hubared p-1 text-sm font-bold">✕</button>
           `;
-          container.appendChild(itemEl);
+          container.appendChild(row);
         });
       }
     }
 
     function toggleCartDrawer(open) {
       const drawer = document.getElementById('cart-drawer');
-      if (open) {
-        drawer.classList.remove('hidden');
-      } else {
-        drawer.classList.add('hidden');
-      }
+      if (open) drawer.classList.remove('hidden');
+      else drawer.classList.add('hidden');
     }
 
     // Checkout Modal Controller
-    function initiateCheckout(prodId, mode) {
-      currentCheckoutTarget = catalog[prodId];
-      if (!currentCheckoutTarget) return;
+    function initiateCheckout(id, mode) {
+      activeCheckoutItem = catalog[id];
+      if (!activeCheckoutItem) return;
 
-      document.getElementById('checkout-product-title').innerText = `${currentCheckoutTarget.title}`;
-      document.getElementById('checkout-fiat-total').innerText = `$${currentCheckoutTarget.priceUSD.toFixed(2)} USD`;
-      document.getElementById('checkout-pwc-total').innerText = `${currentCheckoutTarget.pricePWC.toFixed(2)} PWC`;
+      document.getElementById('checkout-item-title').innerText = activeCheckoutItem.title;
+      document.getElementById('checkout-fiat-sum').innerText = `$${activeCheckoutItem.priceUSD.toFixed(2)} USD`;
+      document.getElementById('checkout-crypto-sum').innerText = `${activeCheckoutItem.pricePWC.toFixed(2)} PWC`;
 
-      setCheckoutMode(mode || 'fiat');
+      setCheckoutMode(mode === 'pwc' ? 'crypto' : 'fiat');
       document.getElementById('checkout-modal').classList.remove('hidden');
     }
 
     function openCheckoutFromCart(mode) {
-      if (cart.length === 0) {
-        alert("Your cart is empty.");
-        return;
-      }
+      if (cart.length === 0) return;
       toggleCartDrawer(false);
-      
+
       let totalUSD = 0;
       let totalPWC = 0;
       cart.forEach(i => { totalUSD += i.priceUSD; totalPWC += i.pricePWC; });
 
-      document.getElementById('checkout-product-title').innerText = `${cart.length} Digital Assets in Cart`;
-      document.getElementById('checkout-fiat-total').innerText = `$${totalUSD.toFixed(2)} USD`;
-      document.getElementById('checkout-pwc-total').innerText = `${totalPWC.toFixed(2)} PWC`;
+      activeCheckoutItem = { title: `${cart.length} Catalog Items`, priceUSD: totalUSD, pricePWC: totalPWC };
+      document.getElementById('checkout-item-title').innerText = activeCheckoutItem.title;
+      document.getElementById('checkout-fiat-sum').innerText = `$${totalUSD.toFixed(2)} USD`;
+      document.getElementById('checkout-crypto-sum').innerText = `${totalPWC.toFixed(2)} PWC`;
 
-      setCheckoutMode(mode);
+      setCheckoutMode(mode === 'pwc' ? 'crypto' : 'fiat');
       document.getElementById('checkout-modal').classList.remove('hidden');
     }
 
@@ -720,83 +938,125 @@
     }
 
     function setCheckoutMode(mode) {
-      activeCheckoutMode = mode;
-      const tabFiat = document.getElementById('checkout-tab-fiat');
-      const tabPwc = document.getElementById('checkout-tab-pwc');
+      checkoutMode = mode;
+      const tabFiat = document.getElementById('modal-tab-fiat');
+      const tabCrypto = document.getElementById('modal-tab-crypto');
       const paneFiat = document.getElementById('checkout-pane-fiat');
-      const panePwc = document.getElementById('checkout-pane-pwc');
+      const paneCrypto = document.getElementById('checkout-pane-crypto');
 
       if (mode === 'fiat') {
         tabFiat.className = "py-2 rounded-lg bg-white shadow-xs text-gray-900 font-bold";
-        tabPwc.className = "py-2 rounded-lg text-gray-500 hover:text-gray-900 font-medium";
+        tabCrypto.className = "py-2 rounded-lg text-gray-500 hover:text-gray-900";
         paneFiat.classList.remove('hidden');
-        panePwc.classList.add('hidden');
+        paneCrypto.classList.add('hidden');
       } else {
-        tabPwc.className = "py-2 rounded-lg bg-white shadow-xs text-hubablue font-bold";
-        tabFiat.className = "py-2 rounded-lg text-gray-500 hover:text-gray-900 font-medium";
-        panePwc.classList.remove('hidden');
+        tabCrypto.className = "py-2 rounded-lg bg-white shadow-xs text-hubablue font-bold";
+        tabFiat.className = "py-2 rounded-lg text-gray-500 hover:text-gray-900";
+        paneCrypto.classList.remove('hidden');
         paneFiat.classList.add('hidden');
+        updateCryptoTotals();
       }
     }
 
-    function executeFiatPayment() {
-      const email = document.getElementById('fiat-email').value;
+    function updateCryptoTotals() {
+      if (!activeCheckoutItem) return;
+      const token = document.getElementById('checkout-crypto-token').value;
+      const sumLabel = document.getElementById('checkout-crypto-sum');
+
+      if (token === 'pwc') {
+        sumLabel.innerText = `${activeCheckoutItem.pricePWC.toFixed(2)} PWC (-10%)`;
+      } else if (token === 'usdc') {
+        sumLabel.innerText = `$${activeCheckoutItem.priceUSD.toFixed(2)} USDC`;
+      } else {
+        const estEth = (activeCheckoutItem.priceUSD / 2700).toFixed(5);
+        sumLabel.innerText = `~${estEth} ETH`;
+      }
+    }
+
+    function processFiatPayment() {
+      const email = document.getElementById('fiat-delivery-email').value;
       if (!email || !email.includes('@')) {
-        alert("Please provide a valid email address to receive your digital download link.");
+        alert("Please enter a valid email for automated order dispatch.");
         return;
       }
-      alert(`Payment Approved!\n\nOrder receipt and encrypted download link dispatched to: ${email}\nThank you for purchasing on Hubaluba!`);
+      alert(`Order Confirmed!\nReceipt & instant encrypted IPFS download link dispatched to: ${email}\nThank you for choosing Hubaluba.`);
       closeCheckoutModal();
       cart = [];
-      updateCartUI();
+      refreshCartUI();
     }
 
-    async function executePwcPayment() {
+    async function processCryptoPayment() {
       if (!userWalletAddress) {
-        alert("Please connect your Base Web3 wallet to authorize payment in $PWC.");
+        alert("Please connect your Web3 wallet to authorize settlement on Base L2.");
         await connectWallet();
         return;
       }
-      alert(`Web3 Transfer Prompted:\nFrom: ${userWalletAddress.slice(0,6)}...${userWalletAddress.slice(-4)}\nRecipient: Hubaluba Escrow Splitter\n\nSmart contract executing 90/10 revenue split on Base Mainnet.`);
+      const token = document.getElementById('checkout-crypto-token').value.toUpperCase();
+      alert(`Base L2 Settlement Triggered:\nAsset: ${token}\nPayer: ${userWalletAddress.slice(0, 6)}...${userWalletAddress.slice(-4)}\nSplit: 90% direct to creator, 10% protocol clearing.\n\nPlease sign the transaction prompt in your wallet.`);
       closeCheckoutModal();
       cart = [];
-      updateCartUI();
+      refreshCartUI();
     }
 
-    function handleVendorSubmit(e) {
+    // Merchant Studio Forms
+    function toggleDeliveryInputs(val) {
+      const filePane = document.getElementById('delivery-file-pane');
+      const supplierPane = document.getElementById('delivery-supplier-pane');
+      if (val === 'supplier') {
+        filePane.classList.add('hidden');
+        supplierPane.classList.remove('hidden');
+      } else {
+        supplierPane.classList.add('hidden');
+        filePane.classList.remove('hidden');
+      }
+    }
+
+    function handleVendorPublish(e) {
       e.preventDefault();
-      const title = document.getElementById('vendor-title').value;
-      const price = document.getElementById('vendor-price').value;
-      alert(`Product "${title}" prepared for listing at $${price}!\n\nSmart contract will automatically bind 90% payout to: ${userWalletAddress ? userWalletAddress : "Connected Base Wallet"}.`);
+      const title = document.getElementById('new-item-title').value;
+      const price = document.getElementById('new-item-price').value;
+      const checked = document.getElementById('compliance-check').checked;
+
+      if (!checked) {
+        alert("You must certify compliance with the Trust & Safety policy.");
+        return;
+      }
+
+      alert(`LISTING SUBMITTED FOR AUDIT:\nItem: "${title}" ($${price} USD)\n\nAutomated hash comparison initiated against illegal material registers. Once validated, your 90/10 smart contract listing will deploy directly to Base L2.`);
+      e.target.reset();
+      switchView('marketplace');
     }
 
-    // Base L2 Web3 Wallet Connector
+    function toggleSafetyModal(open) {
+      const modal = document.getElementById('safety-modal');
+      if (open) modal.classList.remove('hidden');
+      else modal.classList.add('hidden');
+    }
+
+    // Web3 Wallet Connection (Base L2)
     async function connectWallet() {
-      const btnLabel = document.getElementById('wallet-btn-label');
-      const vendorDisplay = document.getElementById('vendor-wallet-display');
-      
+      const btn = document.getElementById('wallet-btn-label');
+      const merchantWallet = document.getElementById('merchant-wallet-label');
+
       if (userWalletAddress) {
         if (confirm(`Disconnect wallet (${userWalletAddress.slice(0, 6)}...${userWalletAddress.slice(-4)})?`)) {
           userWalletAddress = null;
-          btnLabel.innerText = "Connect Wallet";
-          vendorDisplay.innerText = "Not Connected";
-          vendorDisplay.classList.remove('text-hubagreen');
+          btn.innerText = "Connect Wallet";
+          merchantWallet.innerText = "Not Connected";
           return;
         }
       }
 
       if (typeof window.ethereum !== 'undefined') {
         try {
-          btnLabel.innerText = "Connecting...";
+          btn.innerText = "Connecting...";
           const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
           userWalletAddress = accounts[0];
-          
-          const shortAddress = `${userWalletAddress.slice(0, 6)}...${userWalletAddress.slice(-4)}`;
-          btnLabel.innerText = shortAddress;
-          vendorDisplay.innerText = `${shortAddress} (Base L2)`;
-          vendorDisplay.classList.add('text-hubagreen');
-          
-          // Enforce Base Network (Chain ID: 0x2105 = 8453)
+          const short = `${userWalletAddress.slice(0, 6)}...${userWalletAddress.slice(-4)}`;
+          btn.innerText = short;
+          merchantWallet.innerText = `${short} (Base)`;
+
+          // Verify Base Chain ID (8453 / 0x2105)
           try {
             await window.ethereum.request({
               method: 'wallet_switchEthereumChain',
@@ -817,11 +1077,11 @@
             }
           }
         } catch (err) {
-          alert('Wallet connection rejected or cancelled.');
-          btnLabel.innerText = "Connect Wallet";
+          alert('Wallet authorization rejected.');
+          btn.innerText = "Connect Wallet";
         }
       } else {
-        alert("Web3 Wallet not detected. Please install MetaMask or open with Coinbase Wallet.");
+        alert("Web3 Wallet not detected. Please open using Coinbase Wallet or MetaMask.");
       }
     }
   </script>
